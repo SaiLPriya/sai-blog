@@ -16,23 +16,27 @@ export function getMDXComponents(
   components?: MDXComponents,
   opts?: { isApp?: boolean; isPages?: boolean }
 ): MDXComponents {
-  const isApp = opts?.isApp || true;
-  const isPages = opts?.isPages;
+  const isApp = opts?.isApp ?? true;   // use nullish coalescing instead of ||
+  const isPages = opts?.isPages ?? false;
 
   return {
     ...defaultMdxComponents,
     ...genericComponents,
-    ul: ({ children }) => (
+
+    ul: ({ children }: { children: ReactNode }) => (
       <ul className="list-disc pl-5 space-y-1 my-1 mb-6">{children}</ul>
     ),
 
-    ol: ({ children }) => (
+    ol: ({ children }: { children: ReactNode }) => (
       <ol className="list-decimal pl-5 space-y-1 my-2 mb-6">{children}</ol>
     ),
+
     AppOnly: ({ children }: { children: ReactNode }): ReactNode =>
       isApp ? children : null,
+
     PagesOnly: ({ children }: { children: ReactNode }): ReactNode =>
       isPages ? children : null,
+
     ...components,
   };
 }
