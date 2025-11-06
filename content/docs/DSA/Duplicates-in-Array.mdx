@@ -1,0 +1,132 @@
+---
+title: "Find Duplicates in Array"
+description: "Learn how to detect duplicates in an array with simple and efficient approaches. Includes examples, explanations, and clean JavaScript code."
+---
+
+# 🧩 Find Duplicates in Array
+
+## 📘 Problem Statement
+
+You are given an integer array `nums`.  
+Your task is to **return all the numbers that appear more than once** in the array.
+
+---
+
+### 🔹 Example
+
+```javascript
+Input: nums = [4, 3, 2, 7, 8, 2, 3, 1]
+Output: [2, 3]
+````
+
+**Explanation:**
+Numbers `2` and `3` appear twice in the array.
+
+---
+
+## 💡 Approach 1: Using a Set (Simple and Clear)
+
+We can use a **Set** to keep track of seen numbers.
+
+1. Create an empty set `seen`.
+2. Create another set or array `duplicates`.
+3. For each number:
+
+   * If it's not in `seen`, add it.
+   * If it’s already in `seen`, add it to `duplicates`.
+
+---
+
+### ✅ JavaScript Code
+
+```javascript
+function findDuplicates(nums) {
+  const seen = new Set();
+  const duplicates = new Set();
+
+  for (let num of nums) {
+    if (seen.has(num)) {
+      duplicates.add(num);
+    } else {
+      seen.add(num);
+    }
+  }
+
+  return Array.from(duplicates);
+}
+
+// Example:
+console.log(findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])); // [2, 3]
+```
+
+---
+
+### ⏱️ Time & Space Complexity
+
+| Type      | Complexity |
+| --------- | ---------- |
+| **Time**  | O(n)       |
+| **Space** | O(n)       |
+
+Because we loop once through the array and store elements in sets.
+
+---
+
+## ⚙️ Approach 2: In-place (No Extra Space)
+
+If the array contains numbers in the range `1 ≤ nums[i] ≤ n` (where `n` is the size of array),
+we can **mark visited numbers** by flipping their sign to negative.
+
+### ✅ JavaScript Code
+
+```javascript
+function findDuplicates(nums) {
+  const result = [];
+
+  for (let i = 0; i < nums.length; i++) {
+    let index = Math.abs(nums[i]) - 1;
+    if (nums[index] < 0) {
+      result.push(Math.abs(nums[i]));
+    } else {
+      nums[index] = -nums[index];
+    }
+  }
+
+  return result;
+}
+
+// Example:
+console.log(findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])); // [2, 3]
+```
+
+---
+
+### ⏱️ Time & Space Complexity
+
+| Type      | Complexity |
+| --------- | ---------- |
+| **Time**  | O(n)       |
+| **Space** | O(1)       |
+
+We only modify the input array, no extra memory is used.
+
+---
+
+## 🧠 Summary
+
+| Method        | Time | Space | Notes                                    |
+| ------------- | ---- | ----- | ---------------------------------------- |
+| **Using Set** | O(n) | O(n)  | Easy to understand and implement         |
+| **In-place**  | O(n) | O(1)  | Optimized version using negative marking |
+
+---
+
+### 🚀 Key Takeaway
+
+This problem teaches:
+
+* How to use **hashing** (Set) to track duplicates.
+* How to solve **without extra space** using **sign marking** tricks.
+
+---
+
